@@ -17,11 +17,11 @@ jobs:
         # Package git repo into a gzipped tarball for inclusion in release artifacts
         run: |
           cd ..
-          tar -czf "cru_macros-${{ github.ref_name }}.tar.gz" dbt_cru_macros/
-          mv "cru_macros-${{ github.ref_name }}.tar.gz" dbt_cru_macros/
+          tar -czf "dbt_cru_macros.tar.gz" dbt_cru_macros/
+          mv "dbt_cru_macros.tar.gz" dbt_cru_macros/
 
       - name: Upload tarball to release
         uses: softprops/action-gh-release@v2.6.1
         if: github.ref_type == 'tag'
         with:
-          files: "cru_macros-${{ github.ref_name }}.tar.gz"
+          files: "dbt_cru_macros.tar.gz"
