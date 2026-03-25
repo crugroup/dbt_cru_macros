@@ -1,4 +1,4 @@
-# cru_macros
+# dbt_cru_macros
 
 A general-purpose dbt macro package by CRU, intended for dbt projects targeting Snowflake.
 
@@ -8,7 +8,7 @@ Add the following to your project's `packages.yml`:
 
 ```yaml
 packages:
-  - git: "https://github.com/cru/cru_macros"
+  - git: https://github.com/crugroup/cru_dbt_macros
     revision: main
 ```
 
@@ -45,7 +45,7 @@ In `dbt_project.yml`:
 models:
   my_project:
     bronze:
-      +pre-hook: "{{ cru_macros.create_bronze_iceberg_table('MY_POLARIS_CATALOG', 'bronze_assets', 'raw_ingest', this.name) }}"
+      +pre-hook: "{{ dbt_cru_macros.create_bronze_iceberg_table('MY_POLARIS_CATALOG', 'bronze_assets', 'raw_ingest', this.name) }}"
 ```
 
 Generated SQL:
@@ -82,7 +82,7 @@ In `dbt_project.yml`:
 models:
   my_project:
     staging:
-      +pre-hook: "{{ cru_macros.update_bronze_iceberg_table('MY_POLARIS_CATALOG', 'bronze_assets', 'raw_ingest', 'my_table') }}"
+      +pre-hook: "{{ dbt_cru_macros.update_bronze_iceberg_table('MY_POLARIS_CATALOG', 'bronze_assets', 'raw_ingest', 'my_table') }}"
 ```
 
 Generated SQL:

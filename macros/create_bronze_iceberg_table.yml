@@ -9,7 +9,7 @@ macros:
       bronze tables via a Polaris catalog.
 
       Example usage in dbt_project.yml:
-        +pre-hook: "{{ cru_macros.create_bronze_iceberg_table('MY_CATALOG', 'bronze_assets', 'my_schema', 'my_table') }}"
+        +pre-hook: "{{ dbt_cru_macros.create_bronze_iceberg_table('MY_CATALOG', 'bronze_assets', 'my_schema', 'my_table') }}"
     arguments:
       - name: catalog
         type: string
