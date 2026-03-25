@@ -1,0 +1,65 @@
+version: 2
+
+macros:
+  - name: create_bronze_iceberg_table
+    description: |
+      Creates a Snowflake-managed Iceberg table in the bronze layer if it does not already exist.
+      The table is backed by a Polaris external volume and registered in the specified Iceberg catalog.
+      This macro is intended to be used as a dbt pre-hook on models that write to Iceberg-format
+      bronze tables via a Polaris catalog.
+
+      Example usage in dbt_project.yml:
+        +pre-hook: "{{ cru_macros.create_bronze_iceberg_table('MY_CATALOG', 'bronze_assets', 'my_schema', 'my_table') }}"
+    arguments:
+      - name: catalog
+        type: string
+        description: >
+          The name of the Iceberg catalog registered in Snowflake (e.g. 'MY_POLARIS_CATALOG').
+          This is the catalog that Snowflake will use to resolve and register the table metadata.
+      - name: database
+        type: string
+        description: >
+          The Snowflake database in which the Iceberg table will be created
+          (e.g. 'bronze_assets').
+      - name: schema
+        type: string
+        description: >
+          The schema within the target database in which the Iceberg table will be created
+          (e.g. 'raw_ingest').
+      - name: table_name
+        type: string
+        description: >
+          The name of the Iceberg table to create. This value is also used as the
+          catalog_table_name that maps the Snowflake object to its counterpart in the
+          Iceberg catalog.
+
+  - name: update_bronze_iceberg_table
+    description: |
+      Refreshes the metadata of an existing Snowflake-managed Iceberg table in the bronze layer.
+      This macro issues an ALTER ICEBERG TABLE … REFRESH statement, which synchronises
+      Snowflake's view of the table with the latest metadata written to the Polaris external volume.
+      It is intended to be used as a dbt pre-hook on models that read from Iceberg-format bronze
+      tables so that they always see the most up-to-date snapshot.
+
+      Example usage in dbt_project.yml:
+        +pre-hook: "{{ cru_macros.update_bronze_iceberg_table('MY_CATALOG', 'bronze_assets', 'my_schema', 'my_table') }}"
+    arguments:
+      - name: catalog
+        type: string
+        description: >
+          The name of the Iceberg catalog registered in Snowflake. Not currently used in the
+          ALTER statement but kept for API consistency with create_bronze_iceberg_table.
+      - name: database
+        type: string
+        description: >
+          The Snowflake database containing the Iceberg table to refresh
+          (e.g. 'bronze_assets').
+      - name: schema
+        type: string
+        description: >
+          The schema within the target database containing the Iceberg table to refresh
+          (e.g. 'raw_ingest').
+      - name: table_name
+        type: string
+        description: >
+          The name of the Iceberg table whose metadata should be refreshed.

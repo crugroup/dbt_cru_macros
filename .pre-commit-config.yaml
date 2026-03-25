@@ -1,0 +1,54 @@
+default_stages: [pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: pretty-format-json
+        args:
+          - "--autofix"
+      - id: check-ast
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.1
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
+    rev: v2.0.8
+    hooks:
+      - id: check-macro-has-description
+        args: ["--manifest", "target/manifest.json", "--"]
+        files: ^macros/
+      - id: check-macro-arguments-have-desc
+        args: ["--manifest", "target/manifest.json", "--"]
+        files: ^macros/
+
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 4.0.4
+    hooks:
+      - id: sqlfluff-lint
+        additional_dependencies:
+          - "dbt-snowflake>=1.10.0"
+          - "sqlfluff-templater-dbt"
+      - id: sqlfluff-fix
+        additional_dependencies:
+          - "dbt-snowflake>=1.10.0"
+          - "sqlfluff-templater-dbt"
+
+
+# sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
+ci:
+  autoupdate_schedule: weekly
+  skip:
+    - check-macro-has-description
+    - check-macro-arguments-have-desc
+    - sqlfluff-lint
+    - sqlfluff-fix
+  submodules: false

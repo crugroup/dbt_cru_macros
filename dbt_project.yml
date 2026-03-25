@@ -1,0 +1,9 @@
+# cru_macros — a general-purpose dbt macro package by CRU
+name: 'cru_macros'
+version: '1.0.0'
+config-version: 2
+
+macro-paths: ["macros"]
+clean-targets:
+  - "target"
+  - "dbt_packages"
