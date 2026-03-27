@@ -51,7 +51,7 @@ pre-commit run --all-files
 1. Fork the repository and create a feature branch.
 2. Add or modify macros inside `macros/`.
 3. Add/update the corresponding yml file to sync documentation.
-5. Ensure all pre-commit hooks pass before opening a pull request.
+4. Ensure all pre-commit hooks pass before opening a pull request.
 
 ---
 
