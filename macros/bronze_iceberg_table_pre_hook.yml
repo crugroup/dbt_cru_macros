@@ -10,7 +10,7 @@ macros:
       It also does an automatic refresh of the table metadata to ensure that the it's updated from the catalog.
 
       Example usage in dbt_project.yml:
-        +pre-hook: "{{ dbt_cru_macros.bronze_iceberg_table_pre_hook('bronze_assets', 'my_schema', 'my_table') }}"
+        +pre-hook: "{% raw %}{{ dbt_cru_macros.bronze_iceberg_table_pre_hook('bronze_assets', 'my_schema', 'my_table') }}{% endraw %}"
     arguments:
       - name: database
         type: string
