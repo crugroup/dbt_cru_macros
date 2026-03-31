@@ -8,8 +8,8 @@ Add the following to your project's `packages.yml`:
 
 ```yaml
 packages:
-  - git: https://github.com/crugroup/cru_dbt_macros
-    revision: main
+  - tarball: https://github.com/crugroup/dbt_cru_macros/archive/refs/tags/v0.2.1.tar.gz
+    name: 'dbt_cru_macros'
 ```
 
 Then run:
