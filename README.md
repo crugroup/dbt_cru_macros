@@ -32,7 +32,7 @@ dbt deps
 ### Setup
 
 ```bash
-pip install pre-commit sqlfluff dbt-core
+pip install pre-commit sqlfluff dbt-core dbt-snowflake
 pre-commit install
 ```
 
