@@ -1,0 +1,31 @@
+version: 2
+
+macros:
+  - name: create_semantic_view
+    description: |
+      Creates a Snowflake semantic view for Cortex Analyst if it does not already exist.
+      The view is created in the specified database and schema, and is defined based on
+      the provided YAML configuration that specifies the underlying tables, measures, dimensions, etc.
+
+      Example usage in dbt_project.yml:
+        +pre-hook: "{% raw %}{{ dbt_cru_macros.create_semantic_view('GOLD_PRICES', 'CORTEX_ANALYST', 'CPS_PRICES', your_yaml_config) }}{% endraw %}"
+    arguments:
+      - name: database
+        type: string
+        description: >
+          The Snowflake database in which the semantic view will be created
+          (e.g. 'GOLD_PRICES').
+      - name: schema
+        type: string
+        description: >
+          The schema within the target database in which the semantic view will be created
+          (e.g. 'CORTEX_ANALYST').
+      - name: view_name
+        type: string
+        description: >
+          The name of the semantic view to create (e.g. 'CPS_PRICES').
+      - name: yaml
+        type: string
+        description: >
+          A string containing the YAML configuration that defines the semantic view's structure,
+          including its underlying tables, measures, dimensions, and any other relevant metadata.
