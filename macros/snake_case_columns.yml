@@ -1,0 +1,24 @@
+version: 2
+
+macros:
+  - name: snake_case_columns
+    description: |
+      Generates a SELECT column list from a relation, quoting each original identifier
+      and aliasing it to a snake_case, lowercase name. Intended for use in staging models
+      that source from Snowflake data shares or other systems with non-standard column names.
+
+      - Spaces, hyphens and dots are replaced with underscores.
+      - All letters are lowercased.
+      - Consecutive underscores are collapsed to a single underscore.
+      - Original column names are always quoted to handle case-sensitive identifiers correctly.
+
+      Example usage:
+        SELECT
+            {% raw %}{{ dbt_cru_macros.snake_case_columns(source('source', 'MY_TABLE')) }}{% endraw %}
+        FROM {% raw %}{{ source('source', 'MY_TABLE') }}{% endraw %}
+    arguments:
+      - name: relation
+        type: relation
+        description: >
+          A dbt relation object (e.g. from source() or ref()) whose columns will be
+          introspected at compile time and aliased to snake_case names.
